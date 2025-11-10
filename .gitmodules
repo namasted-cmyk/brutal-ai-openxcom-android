@@ -12,5 +12,5 @@
 	url = https://github.com/StoddardOXC/SDL_gfx_SDL2
 [submodule "app/src/main/jni/OpenXcom"]
 	path = app/src/main/jni/OpenXcom
-	url = https://github.com/eithnahex/BrutalAI-OpenXcom
+	url = https://github.com/namasted-cmyk/BrutalAI-OpenXcom
 	branch = android
