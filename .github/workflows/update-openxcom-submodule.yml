@@ -1,3 +1,4 @@
+
 name: Update OpenXcom Submodule
 
 on:
@@ -7,22 +8,25 @@ jobs:
   update-submodule:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: Checkout main repo
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        submodules: false
 
-    - name: Setup Git credentials
+    - name: Checkout submodule separately
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
+        
         # 
-        git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
-
-    - name: Update OpenXcom submodule
-      run: |
-        git submodule update --init --remote app/src/main/jni/OpenXcom
+        rm -rf app/src/main/jni/OpenXcom
+        git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/namasted-cmyk/BrutalAI-OpenXcom.git app/src/main/jni/OpenXcom
+        cd app/src/main/jni/OpenXcom
+        git checkout android
+        cd ../../../../../
+        
+        # 
         git add app/src/main/jni/OpenXcom
-        git commit -m "Update OpenXcom submodule to latest" || exit 0
+        git submodule init
+        git commit -m "Update OpenXcom submodule" || exit 0
         git push
