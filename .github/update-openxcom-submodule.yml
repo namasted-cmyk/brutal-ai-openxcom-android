@@ -1,0 +1,24 @@
+name: Update All Submodules
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-all:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        submodules: false
+        
+    - name: Update all submodules
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git submodule update --init --remote
+        git add .
+        git diff --cached --quiet || git commit -m "Update all submodules"
+        git push
+        
+ 
